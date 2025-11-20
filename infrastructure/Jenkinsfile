@@ -8,7 +8,7 @@ pipeline {
                 stage('Update darcom OS Packages') {
                     steps {
                         sshagent(['darcom-ssh']) {
-                            sh 'ssh -o StrictHostKeyChecking=no dar@darcom "sudo apt-get update && sudo apt-get -y upgrade"'
+                            sh 'ssh -o StrictHostKeyChecking=no dar@192.168.1.10 "sudo apt-get update && sudo apt-get -y upgrade"'
                         }
                     }
                 }
