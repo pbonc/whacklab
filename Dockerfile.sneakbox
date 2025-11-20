@@ -28,8 +28,12 @@ RUN apt-get update && \
 	netcat-openbsd \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Python OSINT tools
-RUN pip3 install shodan censys spiderfoot
+
+# Install Python OSINT tools in a virtual environment (best practice)
+RUN python3 -m venv /opt/venv \
+	&& /opt/venv/bin/pip install --upgrade pip \
+	&& /opt/venv/bin/pip install shodan censys spiderfoot \
+	&& ln -s /opt/venv/bin/* /usr/local/bin/
 
 # Set default shell
 CMD ["/bin/bash"]
