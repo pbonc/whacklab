@@ -5,11 +5,13 @@ pipeline {
         COMPOSE_FILE = "${WORKSPACE}/infrastructure/docker-compose.yml"
     }
     stages {
-        stage('Update OS Packages') {
-            steps {
-                sh 'apt-get update && apt-get -y upgrade'
-            }
-        }
+                stage('Update darcom OS Packages') {
+                    steps {
+                        sshagent(['darcom-ssh']) {
+                            sh 'ssh -o StrictHostKeyChecking=no dar@darcom "sudo apt-get update && sudo apt-get -y upgrade"'
+                        }
+                    }
+                }
         stage('Checkout') {
             steps {
                 checkout scm
