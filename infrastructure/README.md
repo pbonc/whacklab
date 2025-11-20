@@ -3,7 +3,6 @@
 This directory contains configuration files and setup instructions for deploying core services in your home lab using Docker Compose.
 
 ## Contents
-- `docker-compose.yml`: Multi-service deployment for Jenkins and Grafana
 - `README.md`: Setup and usage instructions
 - (Add more files as you expand your lab)
 
@@ -14,7 +13,6 @@ This directory contains configuration files and setup instructions for deploying
 3. Run `docker-compose up -d` to start all services.
 
 ## Services
-- **Jenkins**: CI/CD automation
 - **Grafana**: Monitoring and dashboards
 
 ---
