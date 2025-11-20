@@ -1,35 +1,18 @@
 pipeline {
     agent any
-    environment {
-        // Path to your Docker Compose file
-        COMPOSE_FILE = "${WORKSPACE}/infrastructure/docker-compose.yml"
-    }
     stages {
-                stage('Update darcom OS Packages') {
-                    steps {
-                        sshagent(['darcom-ssh']) {
-                            sh 'ssh -o StrictHostKeyChecking=no dar@192.168.1.10 "sudo apt-get update && sudo apt-get -y upgrade"'
-                        }
-                    }
+        stage('Update darsoc OS Packages') {
+            steps {
+                sshagent(['darsoc-ssh']) {
+                    sh 'ssh -o StrictHostKeyChecking=no dar@192.168.1.20 "sudo apt-get update && sudo apt-get -y upgrade"'
                 }
-        stage('Checkout') {
-            steps {
-                checkout scm
             }
         }
-        stage('Pull Latest Images') {
+        stage('Deploy Services on darsoc') {
             steps {
-                sh 'docker compose -f $COMPOSE_FILE pull'
-            }
-        }
-        stage('Deploy Services') {
-            steps {
-                sh 'docker compose -f $COMPOSE_FILE up -d'
-            }
-        }
-        stage('Cleanup') {
-            steps {
-                sh 'docker image prune -f'
+                sshagent(['darsoc-ssh']) {
+                    sh 'ssh -o StrictHostKeyChecking=no dar@192.168.1.20 "cd ~/whacklab/infrastructure && git pull && docker compose pull && docker compose up -d && docker image prune -f"'
+                }
             }
         }
     }
