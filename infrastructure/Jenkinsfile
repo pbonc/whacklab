@@ -4,14 +4,14 @@ pipeline {
         stage('Update darsoc OS Packages') {
             steps {
                 sshagent(['darsoc-ssh']) {
-                    sh 'ssh -o StrictHostKeyChecking=no dar@192.168.1.20 "sudo apt-get update && sudo apt-get -y upgrade"'
+                    sh 'ssh -o StrictHostKeyChecking=no dar@192.168.1.16 "sudo apt-get update && sudo apt-get -y upgrade"'
                 }
             }
         }
         stage('Deploy Services on darsoc') {
             steps {
                 sshagent(['darsoc-ssh']) {
-                    sh 'ssh -o StrictHostKeyChecking=no dar@192.168.1.20 "cd ~/whacklab/infrastructure && git pull && docker compose pull && docker compose up -d && docker image prune -f"'
+                    sh 'ssh -o StrictHostKeyChecking=no dar@192.168.1.16 "cd ~/whacklab/infrastructure && git pull && docker compose pull && docker compose up -d && docker image prune -f"'
                 }
             }
         }
