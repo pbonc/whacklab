@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+	grafana:
+		image: grafana/grafana-oss:latest
+		container_name: grafana
+		ports:
+			- "3000:3000"
+		volumes:
+			- grafana_data:/var/lib/grafana
+		restart: unless-stopped
+
+	sneakbox:
+		build:
+			context: .
+			dockerfile: Dockerfile.sneakbox
+		image: sneakbox:latest
+		container_name: sneakbox
+		tty: true
+		stdin_open: true
+		volumes:
+			- sneakbox_data:/data
+		restart: unless-stopped
+
+volumes:
+	grafana_data:
+	sneakbox_data:
