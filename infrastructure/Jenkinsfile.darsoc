@@ -2,9 +2,17 @@ pipeline {
     agent any
     environment {
         DARSOC_HOST = "dar@192.168.1.16"
+        REPO_URL = "https://github.com/pbonc/whacklab.git"
+        INFRA_DIR = "infrastructure"
         COMPOSE_FILE = "${WORKSPACE}/infrastructure/docker-compose.yml"
     }
     stages {
+        stage('Clone Infrastructure Repo') {
+            steps {
+                sh 'rm -rf $INFRA_DIR'
+                sh 'git clone $REPO_URL $INFRA_DIR'
+            }
+        }
         stage('Update OS Packages on darsoc') {
             steps {
                 sh 'ssh $DARSOC_HOST "sudo apt update && sudo apt upgrade -y"'
