@@ -15,6 +15,4 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins \
 # Add jenkins user to docker group
 RUN usermod -aG docker jenkins
 
-# Explicitly set entrypoint and user to ensure correct startup
 USER jenkins
-ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
