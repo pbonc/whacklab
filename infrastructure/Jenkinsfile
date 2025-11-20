@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Update OS Packages') {
             steps {
-                sh 'sudo apt-get update && sudo apt-get -y upgrade'
+                sh 'apt-get update && apt-get -y upgrade'
             }
         }
         stage('Checkout') {
